@@ -4,8 +4,9 @@ import morgan from "morgan";
 import cors from "cors";
 import { notFoundError } from "./middlewares/error-handler.js";
 import { errorHandler } from "./middlewares/error-handler.js";
-import testRoutes from "./routes/testRouter.js";
-
+import userRoutes from "./routes/userRouter.js";
+import drugRoutes from "./routes/drugRouter.js";
+import seizureRoutes from "./routes/seizureRouter.js";
 
 // Creating an express app
 const app = express();
@@ -49,6 +50,9 @@ app.use('/img', express.static('public/images'));
 
 // Importing the routes for the 'tests' resource
 app.use('/tests', testRoutes);
+app.use('/users', userRoutes);
+app.use('/drugs', drugRoutes);
+app.use('/seizures', seizureRoutes);
 
 // Using custom middleware for handling 404 errors
 app.use(notFoundError);
