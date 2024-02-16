@@ -26,7 +26,7 @@ export function register(req, res) {
             User.findOne({ email })
                 .then(async (exists) => {
                     if (exists) {
-                        return res.status(400).json({ message: 'Email already exists' });
+                        return res.status(409).json({ message: 'Email already exists' });
                     }
                     // Generate the image filename
                     const imageFilename = generate(fullName, {
