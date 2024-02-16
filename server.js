@@ -48,8 +48,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/img', express.static('public/images'));
 
 
-// Importing the routes for the 'tests' resource
-app.use('/tests', testRoutes);
 app.use('/users', userRoutes);
 app.use('/drugs', drugRoutes);
 app.use('/seizures', seizureRoutes);
