@@ -11,7 +11,7 @@ router.route('/')
     body('password').isLength({ min: 5 }).withMessage('Password must be at least 5 characters long'),
     body('firstName').isLength({ min: 2 }).withMessage('First name must be at least 2 characters long'),
     body('lastName').isLength({ min: 2 }).withMessage('Last name must be at least 2 characters long'),
-    body('phoneNumber').isLength({ min: 8,max:8 }).withMessage('Phone number must be at least 8 characters long')
+    body('phoneNumber').isLength({ min: 8,max:8 }).isNumeric().withMessage('Phone number must be at least 8 characters long')
 ], register);
 
 
