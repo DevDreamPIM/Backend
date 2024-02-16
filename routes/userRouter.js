@@ -1,10 +1,18 @@
 import express from 'express';
 import { body } from 'express-validator';
-import multer from '../middlewares/multer-config.js';
+import multer from '../middlewares/multer-config-user.js';
+import { register } from '../controllers/userController.js';
 
 const router = express.Router();
 
-router.route('/');
+router.route('/')
+.post( [
+    body('email').isEmail().withMessage('Please enter a valid email address'),
+    body('password').isLength({ min: 5 }).withMessage('Password must be at least 5 characters long'),
+    body('firstName').isLength({ min: 2 }).withMessage('First name must be at least 2 characters long'),
+    body('lastName').isLength({ min: 2 }).withMessage('Last name must be at least 2 characters long'),
+    body('phoneNumber').isLength({ min: 8,max:8 }).withMessage('Phone number must be at least 8 characters long')
+], register);
 
 
 
