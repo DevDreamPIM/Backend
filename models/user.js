@@ -29,11 +29,11 @@ const userSchema = new Schema({
     },
     birthDate: {
         type: Date,
-        required: true
+        required: false
     },
     resetCode: {
         type: Number,
-        required: true,
+        required: false,
     },
     role: {
         type: String,
