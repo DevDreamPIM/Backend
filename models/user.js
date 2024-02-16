@@ -33,7 +33,7 @@ const userSchema = new Schema({
     },
     resetCode: {
         type: Number,
-        required: true,
+        required: false,
     },
     role: {
         type: String,
