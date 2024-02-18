@@ -63,7 +63,7 @@ export function register(req, res) {
                                 
                                 <p>Thank you for signing up with us. We are glad to have you on board. You can now log in to your account and start using our services.</p>
                                 <p>Best regards,</p>
-                        <p><strong>Epilepto Guard</strong></p>
+                        <p><strong>Epilepto Guard Team</strong></p>
                             </td>
                         </tr>
                     </table>
@@ -102,4 +102,89 @@ export function login(req, res) {
             }
         })
     }
+}
+
+export async function sendActivationCode(req, res) {
+    try {
+        const resetCode = Math.floor(1000 + Math.random() * 9000).toString();
+        const email = req.body.email
+        const user = await User.findOne({ email });
+        const username = user.firstName + " " + user.lastName;
+        console.log(email);
+
+
+        sendEmail({
+            to: email,
+            subject: 'Epilepto-Guard Activation Code',
+            text: `
+            <body style='font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 0;'>
+                <table width='100%' cellpadding='0' style='max-width: 600px; margin: 20px auto; background-color: #fff; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'>
+                    <tr>
+                        <td style='padding: 20px;'>
+                            <h2 style='color: #333;'>Activation Code Email</h2>
+                            <p>Dear ${username},</p>
+                            <p>Your activation code is: <strong style='color: #009688;'>${resetCode}</strong></p>
+                            <p>Please use this code to reset your password.</p>
+                            <p>If you did not request this code, please disregard this email.</p>
+                            <p>Thank you!</p>
+                            <p><strong>Epilepto Guard Team</strong></p>
+                        </td>
+                    </tr>
+                </table>
+            </body>
+        `
+        });
+
+        User.updateOne({
+            email: req.body.email,
+            resetCode: resetCode
+        }).then(() => {
+            res.status(200).json({ email: req.body.email, resetCode });
+        });
+    } catch (error) {
+        res.status(400).json({
+            error: error
+        });
+    }
+}
+
+export async function verifyCode(req, res) {
+    const { resetCode, email } = req.body;
+    const user = await User.findOne({ email: email });
+    console.log(resetCode)
+
+    if (!user) {
+        res.status(404).json({ message: 'User not found' });
+    } else if (resetCode === null || resetCode === undefined) {
+        res.status(400).json({ message: 'resetCode is null or undefined' });
+    } else if (resetCode == user.resetCode) {
+        res.status(200).json({ message: 'true' });
+    } else {
+        res.status(400).json({ message: 'false' });
+    }
+}
+
+
+export async function forgotPassword(req, res) {
+
+    const { email, newPassword, confirmPassword } = req.body;
+    const user = await User.findOne({ email: email });
+
+    if (newPassword == "" || confirmPassword == "")
+        res.status(500).json({ message: "fields empty" });
+
+    else if (newPassword === confirmPassword) {
+        var pass = bcrypt.hashSync(req.body.newPassword);
+
+        var password = { password: pass };
+        User.updateOne(user, password)
+            .then(() => {
+                res.status(200).json({ data: req.body });
+            })
+            .catch(err => {
+                res.status(500).json({ message: err })
+            });
+    } else
+        res.status(500).json({ message: "2 passwords don't match" })
 };
+
