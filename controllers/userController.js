@@ -63,7 +63,7 @@ export function register(req, res) {
                                 
                                 <p>Thank you for signing up with us. We are glad to have you on board. You can now log in to your account and start using our services.</p>
                                 <p>Best regards,</p>
-                        <p><strong>Epilepto Guard</strong></p>
+                        <p><strong>Epilepto Guard Team</strong></p>
                             </td>
                         </tr>
                     </table>
@@ -145,6 +145,22 @@ export async function sendActivationCode(req, res) {
         res.status(400).json({
             error: error
         });
+    }
+}
+
+export async function verifyCode(req, res) {
+    const { resetCode, email } = req.body;
+    const user = await User.findOne({ email: email });
+    console.log(resetCode)
+
+    if (!user) {
+        res.status(404).json({ message: 'User not found' });
+    } else if (resetCode === null || resetCode === undefined) {
+        res.status(400).json({ message: 'resetCode is null or undefined' });
+    } else if (resetCode == user.resetCode) {
+        res.status(200).json({ message: 'true' });
+    } else {
+        res.status(400).json({ message: 'false' });
     }
 }
 
