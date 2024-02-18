@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import { generate } from '../middlewares/generate-avatar.js';
 import { validationResult } from "express-validator";
 import jwt from 'jsonwebtoken';
+import { sendEmail } from '../utils/sendEmail.js';
 
 
 // Register a new user
@@ -47,6 +48,26 @@ export function register(req, res) {
                     resetCode: 0,
                     image: imageFilename,
                     role: req.body.role
+                });
+                // Send a welcome email to the user
+                sendEmail({
+                    to: email,
+                    subject: 'Welcome to Epilepto-Guard',
+                    text: `
+                    <body style='font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 0;'>
+                    <table width='100%' cellpadding='0' style='max-width: 600px; margin: 20px auto; background-color: #fff; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'>
+                        <tr>
+                            <td style='padding: 20px;'>
+                                <h2 style='color: #333;'>Welcome to Epilepto-Guard</h2>
+                                <p>Dear ${req.body.firstName} ${req.body.lastName},</p>
+                                
+                                <p>Thank you for signing up with us. We are glad to have you on board. You can now log in to your account and start using our services.</p>
+                                <p>Best regards,</p>
+                        <p><strong>Epilepto Guard</strong></p>
+                            </td>
+                        </tr>
+                    </table>
+                </body>`
                 });
 
                 res.status(201).json(newUser);
