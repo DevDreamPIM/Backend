@@ -165,7 +165,7 @@ export async function verifyCode(req, res) {
 }
 
 
-export async function forgotPassword(req, res) {
+export async function resetPassword(req, res) {
 
     const { email, newPassword, confirmPassword } = req.body;
     const user = await User.findOne({ email: email });
