@@ -165,3 +165,26 @@ export async function verifyCode(req, res) {
 }
 
 
+export async function forgotPassword(req, res) {
+
+    const { email, newPassword, confirmPassword } = req.body;
+    const user = await User.findOne({ email: email });
+
+    if (newPassword == "" || confirmPassword == "")
+        res.status(500).json({ message: "fields empty" });
+
+    else if (newPassword === confirmPassword) {
+        var pass = bcrypt.hashSync(req.body.newPassword);
+
+        var password = { password: pass };
+        User.updateOne(user, password)
+            .then(() => {
+                res.status(200).json({ data: req.body });
+            })
+            .catch(err => {
+                res.status(500).json({ message: err })
+            });
+    } else
+        res.status(500).json({ message: "2 passwords don't match" })
+};
+

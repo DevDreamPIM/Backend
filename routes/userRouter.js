@@ -1,7 +1,7 @@
 import express from 'express';
 import { body } from 'express-validator';
 import multer from '../middlewares/multer-config-user.js';
-import { register,login,sendActivationCode,verifyCode } from '../controllers/userController.js';
+import { register,login,sendActivationCode,verifyCode,forgotPassword } from '../controllers/userController.js';
 
 const router = express.Router();
 
@@ -15,8 +15,11 @@ router.route('/')
 ], register);
 
 router.route('/login').post([body("email").isEmpty().withMessage("email is required"), body("password").isEmpty().withMessage("password is required")],login);
+
 router.route('/sendActivationCode').post(sendActivationCode);
 router.route('/verifyCode').post(verifyCode);
+router.route('/forgotPassword').post(forgotPassword);
+
 
 
 
