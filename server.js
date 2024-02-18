@@ -7,7 +7,10 @@ import { errorHandler } from "./middlewares/error-handler.js";
 import userRoutes from "./routes/userRouter.js";
 import drugRoutes from "./routes/drugRouter.js";
 import seizureRoutes from "./routes/seizureRouter.js";
+import dotenv from "dotenv";
 
+
+dotenv.config();
 // Creating an express app
 const app = express();
 
