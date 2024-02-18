@@ -95,12 +95,10 @@ export function login(req, res) {
                     expiresIn: "2h",
                 }
                 );
-
-
                 user.save();
-                res.status(200).json({ id: user._id, email: user.email, image: user.image, role: user.role, firstName: user.firstName, lastName: user.lastName, token });
+                res.status(200).json({ id: user._id, email: user.email, image: user.image, role: user.role, firstName: user.firstName, lastName: user.lastName,phoneNumber: user.phoneNumber, token });
             } else {
-                res.status(500).json({ message: 'Invalid Credentials!' });
+                res.status(500).json('Invalid Credentials!');
             }
         })
     }
