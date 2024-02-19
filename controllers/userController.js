@@ -96,7 +96,7 @@ export function login(req, res) {
                 }
                 );
                 user.save();
-                res.status(200).json({ id: user._id, email: user.email, image: user.image, role: user.role, firstName: user.firstName, lastName: user.lastName,phoneNumber: user.phoneNumber, token });
+                res.status(200).json({ id: user._id, email: user.email, image: user.image, role: user.role, firstName: user.firstName, lastName: user.lastName, phoneNumber: user.phoneNumber, token });
             } else {
                 res.status(500).json('Invalid Credentials!');
             }
@@ -179,6 +179,25 @@ export async function resetPassword(req, res) {
         var password = { password: pass };
         User.updateOne(user, password)
             .then(() => {
+                sendEmail({
+                    to: email,
+                    subject: 'Epilepto-Guard Password Reset',
+                    text: `
+                    <body style='font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 0;'>
+                    <table width='100%' cellpadding='0' style='max-width: 600px; margin: 20px auto; background-color: #fff; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'>
+                        <tr>
+                            <td style='padding: 20px;'>
+                                <h2 style='color: #333;'>Password Reset</h2>
+                                <p>Dear ${user.firstName} ${user.lastName},</p>
+                                <p>Your password has been reset successfully.</p>
+                                <p>If you did not request this change, please contact us immediately.</p>
+                                <p>Thank you!</p>
+                                <p><strong>Epilepto Guard Team</strong></p>
+                            </td>
+                        </tr>
+                    </table>
+                </body>
+                `});
                 res.status(200).json({ data: req.body });
             })
             .catch(err => {
@@ -186,5 +205,7 @@ export async function resetPassword(req, res) {
             });
     } else
         res.status(500).json({ message: "2 passwords don't match" })
-};
+}
+
+
 
