@@ -8,7 +8,7 @@ export const authenticateToken = (req, res, next) => {
 
   
 
-  jwt.verify(token, process.env.secret_token, (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
       console.error('Token verification failed:', err.message);
       return res.sendStatus(403); // Token is invalid
