@@ -207,5 +207,29 @@ export async function resetPassword(req, res) {
         res.status(500).json({ message: "2 passwords don't match" })
 }
 
+export async function updateMedicalFile(req, res) {
 
+    if (!validationResult(req).isEmpty()) {
+        console.log({ errors: validationResult(req).array() })
+        return res.status(400).json({ errors: validationResult(req).array() });
+    } else {
+
+        const { birthDate, weight, height } = req.body;
+        const user = await User.findOne({ email: req.user.email });
+        if (user) {
+            var profile = { birthDate, weight, height };
+            User.updateOne(user, profile)
+                .then(() => {
+                    res.status(200).json({ data: req.body });
+                })
+                .catch(err => {
+                    res.status(500).json({ message: err })
+                });
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+
+    }
+
+}
 
