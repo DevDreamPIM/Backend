@@ -233,3 +233,25 @@ export async function updateMedicalFile(req, res) {
 
 }
 
+
+export async function getMedicalFile(req, res) {
+    try {
+        const user = await User.findOne({ id: req.id });
+
+        if (user) {
+            const { firstName, lastName, weight, height, birthDate } = user;
+            return res.json({ 
+                firstName, 
+                lastName, 
+                weight, 
+                height, 
+                birthDate 
+            });
+        } else {
+            return res.status(404).json({ message: "User not found" });
+        }
+    } catch (error) {
+        console.error("Error fetching user data:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
