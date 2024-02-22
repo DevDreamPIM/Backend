@@ -3,54 +3,68 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const seizureSchema = new Schema({
-    realSeizure: {
-        type: Boolean,
-        required: true
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: false
+    },
+    date: {
+        type: Date,
+        default: Date.now
     },
     startTime: {
-        type: Date,
-        required: true
+        type: String,
+        required: true,
+        default: Date.now
     },
     endTime: {
-        type: Date,
+        type: String,
         required: true
     },
-    firstSigns: {
-        type: Date,
+    duration: {
+        type: Number
+    },
+    location: {
+        type: String,
+        required: true
+    },
+    symptoms: {
+        type: [String],
         required: true
     },
     preSymptoms: {
         type: String,
         required: true
     },
-    tookMedication: {
+    emergencyServicesCalled: {
         type: Boolean,
-        required: true
-    },
-    ingury: {
-        type: String,
-        required: true
-    },
-    postDisconfort: {
-        type: String,
-        required: true
-    },
-    otherDescription: {
-        type: String,
-        required: true
+        default: false
     },
     medicalAssistance: {
         type: Boolean,
-        required: true
-    },
-    user:{
-        type: Schema.Types.ObjectId,
-        ref: "User",
         required: false
     },
+    severity: {
+        type: String,
+        enum: ['mild', 'moderate', 'severe'],
+        default: 'mild'
+    },
+    type: {
+        type: String,
+        enum: ['partial', 'generalized', 'absence'],
+        required: true
+    }
 },
 {
     timestamps: true
+});
+
+seizureSchema.pre('save', function (next) {
+    if (this.startTime && this.endTime) {
+      const durationInMillis = new Date(this.endTime) - new Date(this.startTime);
+      this.duration = durationInMillis / 1000; 
+    }
+    next();
 });
 
 export default model('Seizure', seizureSchema);
