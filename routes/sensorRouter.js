@@ -1,6 +1,6 @@
 import express from 'express';
 import { body } from 'express-validator';
-import { addOne, getAllSensors, getAllSensorsOfAUser } from "../controllers/sensorController.js.js";
+import { addOne, getAllSensors, getAllSensorsOfAUser } from "../controllers/sensorController.js";
 
 const router = express.Router();
 

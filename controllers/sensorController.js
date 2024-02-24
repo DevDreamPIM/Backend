@@ -1,4 +1,4 @@
-import Sensor from '../models/sensor.js.js';
+import Sensor from '../models/sensor.js';
 
 export function getAllSensors(req, res) {
     Sensor.find({})
