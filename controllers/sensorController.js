@@ -1,0 +1,28 @@
+import Sensor from '../models/sensor.js.js';
+
+export function getAllSensors(req, res) {
+    Sensor.find({})
+      .then((docs) => {
+        res.status(200).json(docs);
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err });
+      });
+}
+
+export function addOne(req, res) {
+
+    console.log(req.body);
+    Sensor.create(req.body);
+
+}
+
+export function getAllSensorsOfAUser() {
+    Sensor.find({ user: user })
+        .then(docs => {
+            res.status(200).json(docs);
+        })
+        .catch((err) => {
+            res.status(500).json({ error: err });
+        });
+}
