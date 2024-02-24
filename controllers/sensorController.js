@@ -20,8 +20,8 @@ export function addOne(req, res) {
         });
 }
 
-export function getAllSensorsOfAUser() {
-    Sensor.find({ user: req.query.user })
+export function getAllSensorsOfAUser(req, res) {
+    Sensor.find({ user: req.params.user })
         .then(docs => {
             res.status(200).json(docs);
         })

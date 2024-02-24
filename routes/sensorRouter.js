@@ -1,5 +1,4 @@
 import express from 'express';
-import { body } from 'express-validator';
 import { addOne, getAllSensors, getAllSensorsOfAUser } from "../controllers/sensorController.js";
 
 const router = express.Router();
@@ -11,7 +10,7 @@ router
 
 router
     .route("/:user")
-    .put(getAllSensorsOfAUser);
+    .get(getAllSensorsOfAUser);
 
 
 export default router;
