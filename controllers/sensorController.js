@@ -13,8 +13,11 @@ export function getAllSensors(req, res) {
 export function addOne(req, res) {
 
     console.log(req.body);
-    Sensor.create(req.body);
-
+    Sensor.create(req.body)
+        .then(() => res.status(201).json("Ok"))
+        .catch((err) => {
+            res.status(500).json({ error: err.message });
+        });
 }
 
 export function getAllSensorsOfAUser() {
