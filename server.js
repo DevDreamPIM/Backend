@@ -4,10 +4,13 @@ import morgan from "morgan";
 import cors from "cors";
 import { notFoundError } from "./middlewares/error-handler.js";
 import { errorHandler } from "./middlewares/error-handler.js";
+import dotenv from "dotenv";
+
+
 import userRoutes from "./routes/userRouter.js";
 import drugRoutes from "./routes/drugRouter.js";
 import seizureRoutes from "./routes/seizureRouter.js";
-import dotenv from "dotenv";
+import sensorRoutes from "./routes/sensorRouter.js";
 
 
 dotenv.config();
@@ -54,6 +57,7 @@ app.use('/img', express.static('public/images'));
 app.use('/users', userRoutes);
 app.use('/drugs', drugRoutes);
 app.use('/seizures', seizureRoutes);
+app.use('/sensors', sensorRoutes);
 
 // Using custom middleware for handling 404 errors
 app.use(notFoundError);
