@@ -18,7 +18,7 @@ export function addOne(req, res) {
 }
 
 export function getAllSensorsOfAUser() {
-    Sensor.find({ user: user })
+    Sensor.find({ user: req.query.user })
         .then(docs => {
             res.status(200).json(docs);
         })
