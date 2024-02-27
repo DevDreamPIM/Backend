@@ -28,12 +28,9 @@ const seizureSchema = new Schema({
         type: String,
         required: true
     },
-    symptoms: {
-        type: [String],
-        required: true
-    },
-    preSymptoms: {
+    type: {
         type: String,
+        enum: ['partial', 'generalized', 'absence'],
         required: true
     },
     emergencyServicesCalled: {
@@ -48,12 +45,8 @@ const seizureSchema = new Schema({
         type: String,
         enum: ['mild', 'moderate', 'severe'],
         default: 'mild'
-    },
-    type: {
-        type: String,
-        enum: ['partial', 'generalized', 'absence'],
-        required: true
     }
+   
 },
 {
     timestamps: true
