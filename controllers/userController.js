@@ -27,7 +27,7 @@ export function register(req, res) {
         const email = req.body.email;
 
         User.findOne({ email })
-            .then(async (exists) => {
+            .then(async(exists) => {
                 if (exists) {
                     return res.status(409).json({ message: 'Email already exists' });
                 }
@@ -47,7 +47,8 @@ export function register(req, res) {
                     password: hashedPassword,
                     resetCode: 0,
                     image: imageFilename,
-                    role: req.body.role
+                    role: req.body.role,
+                    isActivated: 1
                 });
                 // Send a welcome email to the user
                 sendEmail({
@@ -92,11 +93,14 @@ export function login(req, res) {
 
                 const token = jwt.sign({ userId: user._id, email },
                     process.env.JWT_SECRET, {
-                    expiresIn: "2h",
-                }
+                        expiresIn: "2h",
+                    }
                 );
+                user.isActivated = 1;
+
+
                 user.save();
-                res.status(200).json({ id: user._id, email: user.email, image: user.image, role: user.role, firstName: user.firstName, lastName: user.lastName, phoneNumber: user.phoneNumber, token });
+                res.status(200).json({ id: user._id, isActivated: user.isActivated, email: user.email, image: user.image, role: user.role, firstName: user.firstName, lastName: user.lastName, phoneNumber: user.phoneNumber, token });
             } else {
                 res.status(500).json('Invalid Credentials!');
             }
@@ -197,7 +201,8 @@ export async function resetPassword(req, res) {
                         </tr>
                     </table>
                 </body>
-                `});
+                `
+                });
                 res.status(200).json({ data: req.body });
             })
             .catch(err => {
@@ -240,12 +245,12 @@ export async function getMedicalFile(req, res) {
 
         if (user) {
             const { firstName, lastName, weight, height, birthDate } = user;
-            return res.json({ 
-                firstName, 
-                lastName, 
-                weight, 
-                height, 
-                birthDate 
+            return res.json({
+                firstName,
+                lastName,
+                weight,
+                height,
+                birthDate
             });
         } else {
             return res.status(404).json({ message: "User not found" });
@@ -254,4 +259,21 @@ export async function getMedicalFile(req, res) {
         console.error("Error fetching user data:", error);
         return res.status(500).json({ message: "Internal server error" });
     }
+}
+
+export function desactivateAccount(req, res) {
+    const id = req.body.id;
+    console.log(id);
+
+    User.findById(id).then((user) => {
+
+        console.log(id);
+        user.isActivated = 0;
+        user.save()
+
+        return res.status(200).json({ message: 'Deactivated' });
+    }).catch((err) => {
+        console.error(err);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    });
 }

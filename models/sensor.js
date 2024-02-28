@@ -16,6 +16,10 @@ const sensorSchema = new Schema({
         type: [Number],
         required: false
     },
+    bmp:{
+        type: Number,
+        required: false
+    },
     
 },
 {
