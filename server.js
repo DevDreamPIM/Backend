@@ -11,6 +11,8 @@ import userRoutes from "./routes/userRouter.js";
 import drugRoutes from "./routes/drugRouter.js";
 import seizureRoutes from "./routes/seizureRouter.js";
 import sensorRoutes from "./routes/sensorRouter.js";
+import postCriseFormDataRoutes from "./routes/postCriseFormDataRoutes.js";
+
 
 
 dotenv.config();
@@ -57,6 +59,7 @@ app.use('/img', express.static('public/images'));
 app.use('/users', userRoutes);
 app.use('/drugs', drugRoutes);
 app.use('/seizures', seizureRoutes);
+app.use('/postCriseForm', postCriseFormDataRoutes);
 app.use('/sensors', sensorRoutes);
 
 // Using custom middleware for handling 404 errors
