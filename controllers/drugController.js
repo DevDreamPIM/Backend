@@ -29,7 +29,7 @@ export function getAllDrugs(req, res) {
           numberOfTimeADay: req.body.numberOfTimeADay,
           quantityPerTake: req.body.quantityPerTake,
           user: req.body.user,
-          image: req.file.filename
+          image: '1708101590858.png'
         })
             .then(() => res.status(201).json("OK"))
             .catch((err) => {
@@ -52,7 +52,7 @@ export function getAllDrugs(req, res) {
             dayOfWeek: req.body.dayOfWeek,
             numberOfTimeADay: req.body.numberOfTimeADay,
             quantityPerTake: req.body.quantityPerTake,
-            image: req.file.filename
+            image: '1708101590858.png'
           }
         : {
             name: nameToUpdate,
@@ -62,7 +62,7 @@ export function getAllDrugs(req, res) {
             dayOfWeek: req.body.dayOfWeek,
             numberOfTimeADay: req.body.numberOfTimeADay,
             quantityPerTake: req.body.quantityPerTake,
-            image: req.file.filename
+            image: '1708101590858.png'
           };
   
       let updatedDrug = await Drug.findOneAndUpdate(
