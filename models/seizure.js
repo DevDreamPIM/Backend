@@ -8,6 +8,11 @@ const seizureSchema = new Schema({
         ref: "User",
         required: false
     },
+    formDataId: { 
+        type: Schema.Types.ObjectId, 
+        ref: 'PostCriseFormData', 
+        required: false 
+    },
     date: {
         type: Date,
         default: Date.now
@@ -20,6 +25,7 @@ const seizureSchema = new Schema({
     endTime: {
         type: String,
         required: true
+       // default: Date.now
     },
     duration: {
         type: Number
