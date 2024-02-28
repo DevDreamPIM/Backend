@@ -72,7 +72,7 @@ export async function getSeizureById(req, res) {
         }
         
         // Récupérer les données du formulaire associées à cette crise
-        const formData = await PostCriseFormData.findOne({ criseId: seizureId });
+        const formData = await postCriseFormData.findOne({ criseId: seizureId });
         
         // Retourner les détails de la crise avec les données de formulaire
         res.status(200).json({ seizure, formData });
