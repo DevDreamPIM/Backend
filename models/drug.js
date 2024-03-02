@@ -13,7 +13,7 @@ const drugSchema = new Schema({
     },
     image: {
         type: String,
-        required: true
+        required: false
     },
     startTakingDate: {
         type: Date,

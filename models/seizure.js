@@ -8,6 +8,11 @@ const seizureSchema = new Schema({
         ref: "User",
         required: false
     },
+    formDataId: { 
+        type: Schema.Types.ObjectId, 
+        ref: 'PostCriseFormData', 
+        required: false 
+    },
     date: {
         type: Date,
         default: Date.now
@@ -20,6 +25,7 @@ const seizureSchema = new Schema({
     endTime: {
         type: String,
         required: true
+       // default: Date.now
     },
     duration: {
         type: Number
@@ -28,12 +34,9 @@ const seizureSchema = new Schema({
         type: String,
         required: true
     },
-    symptoms: {
-        type: [String],
-        required: true
-    },
-    preSymptoms: {
+    type: {
         type: String,
+        enum: ['partial', 'generalized', 'absence'],
         required: true
     },
     emergencyServicesCalled: {
@@ -48,12 +51,8 @@ const seizureSchema = new Schema({
         type: String,
         enum: ['mild', 'moderate', 'severe'],
         default: 'mild'
-    },
-    type: {
-        type: String,
-        enum: ['partial', 'generalized', 'absence'],
-        required: true
     }
+   
 },
 {
     timestamps: true

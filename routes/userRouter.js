@@ -1,7 +1,11 @@
 import express from 'express';
 import { body } from 'express-validator';
 import multer from '../middlewares/multer-config-user.js';
+<<<<<<< HEAD
 import { register, login, sendActivationCode, verifyCode, resetPassword, updateMedicalFile,getMedicalFile,googleSignIn } from '../controllers/userController.js';
+=======
+import { register, login, sendActivationCode, verifyCode, resetPassword, updateMedicalFile, getMedicalFile, desactivateAccount } from '../controllers/userController.js';
+>>>>>>> fa0435a24aae5e797f8701e5476a38c68c3d3f2f
 import { authenticateToken } from '../middlewares/user-auth.js';
 
 const router = express.Router();
@@ -33,11 +37,11 @@ router.route('/updateMedicalFile').put(
             }
             return true;
         })
-    ]
-    , authenticateToken, updateMedicalFile);
+    ], authenticateToken, updateMedicalFile);
 
 router.route('/getMedicalFile/:id').get(authenticateToken,getMedicalFile);
 router.route('/googleSignIn').post(googleSignIn);
+router.route('/desactivateAccount').post(desactivateAccount);
 
 
 
