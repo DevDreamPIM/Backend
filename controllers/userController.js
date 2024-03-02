@@ -313,7 +313,10 @@ export function mailexisting(req, res) {
             res.status(200).json({ message: 'true' });
         } else {
             res.status(200).json({ message: 'false' });
-        }
+        }}).catch(err => {
+            res.status(500).json({ message: err });
+        });
+}
 export function desactivateAccount(req, res) {
     const id = req.body.id;
     console.log(id);

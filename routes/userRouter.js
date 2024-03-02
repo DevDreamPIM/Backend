@@ -1,11 +1,7 @@
 import express from 'express';
 import { body } from 'express-validator';
 import multer from '../middlewares/multer-config-user.js';
-<<<<<<< HEAD
-import { register, login, sendActivationCode, verifyCode, resetPassword, updateMedicalFile,getMedicalFile,googleSignIn } from '../controllers/userController.js';
-=======
-import { register, login, sendActivationCode, verifyCode, resetPassword, updateMedicalFile, getMedicalFile, desactivateAccount } from '../controllers/userController.js';
->>>>>>> fa0435a24aae5e797f8701e5476a38c68c3d3f2f
+import { register, login, sendActivationCode, verifyCode, resetPassword, updateMedicalFile, getMedicalFile,googleSignIn, desactivateAccount } from '../controllers/userController.js';
 import { authenticateToken } from '../middlewares/user-auth.js';
 
 const router = express.Router();
