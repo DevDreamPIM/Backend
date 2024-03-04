@@ -4,10 +4,18 @@ import morgan from "morgan";
 import cors from "cors";
 import { notFoundError } from "./middlewares/error-handler.js";
 import { errorHandler } from "./middlewares/error-handler.js";
+import dotenv from "dotenv";
+
+
 import userRoutes from "./routes/userRouter.js";
 import drugRoutes from "./routes/drugRouter.js";
 import seizureRoutes from "./routes/seizureRouter.js";
+import sensorRoutes from "./routes/sensorRouter.js";
+import postCriseFormDataRoutes from "./routes/postCriseFormDataRoutes.js";
 
+
+
+dotenv.config();
 // Creating an express app
 const app = express();
 
@@ -48,11 +56,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/img', express.static('public/images'));
 
 
-// Importing the routes for the 'tests' resource
-app.use('/tests', testRoutes);
 app.use('/users', userRoutes);
 app.use('/drugs', drugRoutes);
 app.use('/seizures', seizureRoutes);
+app.use('/postCriseForm', postCriseFormDataRoutes);
+app.use('/sensors', sensorRoutes);
 
 // Using custom middleware for handling 404 errors
 app.use(notFoundError);

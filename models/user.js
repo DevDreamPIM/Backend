@@ -29,11 +29,11 @@ const userSchema = new Schema({
     },
     birthDate: {
         type: Date,
-        required: true
+        required: false
     },
     resetCode: {
         type: Number,
-        required: true,
+        required: false,
     },
     role: {
         type: String,
@@ -45,22 +45,25 @@ const userSchema = new Schema({
         required: false,
 
     },
-    weight:{
+    weight: {
         type: Number,
         required: false,
     },
 
-    height:{
+    height: {
         type: Number,
         required: false,
     },
-    doctor:{
+    doctor: {
         type: Schema.Types.ObjectId,
         ref: "User",
         required: false
     },
-},
-{
+    isActivated: {
+        type: Boolean,
+        required: true,
+    },
+}, {
     timestamps: true
 });
 

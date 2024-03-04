@@ -13,7 +13,7 @@ const drugSchema = new Schema({
     },
     image: {
         type: String,
-        required: true
+        required: false
     },
     startTakingDate: {
         type: Date,
@@ -38,7 +38,7 @@ const drugSchema = new Schema({
     user:{
         type: Schema.Types.ObjectId,
         ref: "User",
-        required: true
+        required: false
     },
 
 },

@@ -3,54 +3,67 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const seizureSchema = new Schema({
-    realSeizure: {
-        type: Boolean,
-        required: true
-    },
-    startTime: {
-        type: Date,
-        required: true
-    },
-    endTime: {
-        type: Date,
-        required: true
-    },
-    firstSigns: {
-        type: Date,
-        required: true
-    },
-    preSymptoms: {
-        type: String,
-        required: true
-    },
-    tookMedication: {
-        type: Boolean,
-        required: true
-    },
-    ingury: {
-        type: String,
-        required: true
-    },
-    postDisconfort: {
-        type: String,
-        required: true
-    },
-    otherDescription: {
-        type: String,
-        required: true
-    },
-    medicalAssistance: {
-        type: Boolean,
-        required: true
-    },
-    user:{
+    user: {
         type: Schema.Types.ObjectId,
         ref: "User",
         required: false
     },
+    formDataId: { 
+        type: Schema.Types.ObjectId, 
+        ref: 'PostCriseFormData', 
+        required: false 
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    },
+    startTime: {
+        type: String,
+        required: true,
+        default: Date.now
+    },
+    endTime: {
+        type: String,
+        required: true
+       // default: Date.now
+    },
+    duration: {
+        type: Number
+    },
+    location: {
+        type: String,
+        required: true
+    },
+    type: {
+        type: String,
+        enum: ['partial', 'generalized', 'absence'],
+        required: true
+    },
+    emergencyServicesCalled: {
+        type: Boolean,
+        default: false
+    },
+    medicalAssistance: {
+        type: Boolean,
+        required: false
+    },
+    severity: {
+        type: String,
+        enum: ['mild', 'moderate', 'severe'],
+        default: 'mild'
+    }
+   
 },
 {
     timestamps: true
+});
+
+seizureSchema.pre('save', function (next) {
+    if (this.startTime && this.endTime) {
+      const durationInMillis = new Date(this.endTime) - new Date(this.startTime);
+      this.duration = durationInMillis / 1000; 
+    }
+    next();
 });
 
 export default model('Seizure', seizureSchema);
