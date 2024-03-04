@@ -24,6 +24,8 @@ const PORT = 9090 || process.env.PORT;
 
 // Specifying the MongoDB database name
 const databaseName = 'epilepto-guard';
+const db_url_atlas = process.env.DB_URL_ATLAS || 'mongodb+srv://topadmin:topadmin@cluster0.8m1dzlk.mongodb.net/?retryWrites=true&w=majority'
+
 
 // Enabling debug mode for mongoose
 mongoose.set('debug', true);
@@ -32,7 +34,8 @@ mongoose.set('debug', true);
 mongoose.Promise = global.Promise;
 
 // Connecting to the MongoDB database
-mongoose.connect(`mongodb://127.0.0.1:27017/${databaseName}`)
+//mongoose.connect(`mongodb://127.0.0.1:27017/${databaseName}`)
+mongoose.connect(db_url_atlas, { dbName: databaseName }) 
     .then(() => {
         console.log(`Connected to ${databaseName}`);
     })
