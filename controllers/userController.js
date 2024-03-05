@@ -4,7 +4,7 @@ import { generate } from '../middlewares/generate-avatar.js';
 import { validationResult } from "express-validator";
 import jwt from 'jsonwebtoken';
 import { sendEmail } from '../utils/sendEmail.js';
-
+import { OAuth2Client } from 'google-auth-library';
 
 // Register a new user
 export function register(req, res) {
@@ -261,6 +261,62 @@ export async function getMedicalFile(req, res) {
     }
 }
 
+export async function googleSignIn(req, res) {
+    const client = new OAuth2Client(process.env.CLIENT_ID);
+    const { email, idToken } = req.body;
+
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken,
+            audience: process.env.CLIENT_ID,
+        });
+        const payload = ticket.getPayload();
+
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Email already exists' });
+        }
+
+        const newUser = await User.create({
+            password: bcrypt.hashSync("0000"),
+            firstName: payload.given_name,
+            lastName: payload.family_name,
+            email: payload.email,
+            resetCode: 0,
+            image: "default_pic.png",
+            role: "patient"
+        });
+
+        const token = generateToken(newUser); // Generate JWT token for the user
+
+        res.status(201).json({
+            id: newUser._id,
+            image: newUser.image,
+            role: newUser.role,
+            firstName: newUser.firstName,
+            lastName: newUser.lastName,
+            email: newUser.email,
+            token
+        });
+    } catch (error) {
+        console.error('Error signing in with Google:', error);
+        res.status(401).json({ error: 'Token verification failed' });
+    }
+
+    
+}
+
+export function mailexisting(req, res) {
+    const { email } = req.body;
+    User.findOne({ email: email }).then(user => {
+        if (user) {
+            res.status(200).json({ message: 'true' });
+        } else {
+            res.status(200).json({ message: 'false' });
+        }}).catch(err => {
+            res.status(500).json({ message: err });
+        });
+}
 export function desactivateAccount(req, res) {
     const id = req.body.id;
     console.log(id);
