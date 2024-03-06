@@ -1,6 +1,7 @@
 import PostCriseFormData from '../models/postCriseFormData.js';
 import seizure from '../models/seizure.js';
 
+
 // Créer un formulaire de crise
 export const createPostCriseFormData = async (req, res) => {
   try {
@@ -102,7 +103,7 @@ export const updatePostCriseFormData = async (req, res) => {
 
     // Si la mise à jour a réussi, mettez à jour également la référence dans la crise associée
     // Supposons que vous ayez un champ `formDataId` dans le modèle de crise pour stocker l'ID du formulaire
-    const seizure = await Seizure.findOneAndUpdate({ formDataId: id }, { formDataId: formData._id }, { new: true });
+    const seizure = await seizure.findOneAndUpdate({ formDataId: id }, { formDataId: formData._id }, { new: true });
 
     res.status(200).json({ formData, seizure });
   } catch (error) {
