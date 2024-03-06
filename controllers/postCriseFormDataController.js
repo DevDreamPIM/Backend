@@ -1,6 +1,6 @@
 import PostCriseFormData from '../models/postCriseFormData.js';
 import seizure from '../models/seizure.js';
-import jwt from 'jsonwebtoken';
+
 
 // Créer un formulaire de crise
 export const createPostCriseFormData = async (req, res) => {

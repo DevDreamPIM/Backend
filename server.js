@@ -9,9 +9,11 @@ import { authenticateToken } from "./middlewares/user-auth.js";
 
 import userRoutes from "./routes/userRouter.js";
 import drugRoutes from "./routes/drugRouter.js";
-import seizureRoutes from "./routes/seizureRouter.js";
 import sensorRoutes from "./routes/sensorRouter.js";
+import seizureRoutes from "./routes/seizureRouter.js";
 import postCriseFormDataRoutes from "./routes/postCriseFormDataRoutes.js";
+//import dailyFormDataRoutes from "./routes/dailyFormDataRoutes.js";
+
 
 
 
@@ -63,7 +65,10 @@ app.use('/users', userRoutes);
 app.use('/drugs', drugRoutes);
 app.use('/seizures', authenticateToken, seizureRoutes);
 app.use('/postCriseForm', postCriseFormDataRoutes);
+//app.use('/dailyForm', dailyFormDataRoutes);
 app.use('/sensors', sensorRoutes);
+
+
 
 // Using custom middleware for handling 404 errors
 app.use(notFoundError);
