@@ -348,7 +348,7 @@ export function desactivateAccount(req, res) {
         return res.status(500).json({ message: 'Internal Server Error' });
     });
 }
-
+ 
 
 export function updateProfile(req, res) {
     if (!validationResult(req).isEmpty()) {
