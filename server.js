@@ -12,6 +12,7 @@ import drugRoutes from "./routes/drugRouter.js";
 import seizureRoutes from "./routes/seizureRouter.js";
 import sensorRoutes from "./routes/sensorRouter.js";
 import postCriseFormDataRoutes from "./routes/postCriseFormDataRoutes.js";
+import doctorRoute from "./routes/doctorRoute.js";
 
 
 
@@ -35,7 +36,7 @@ mongoose.Promise = global.Promise;
 
 // Connecting to the MongoDB database
 //mongoose.connect(`mongodb://127.0.0.1:27017/${databaseName}`)
-mongoose.connect(db_url_atlas, { dbName: databaseName }) 
+mongoose.connect(db_url_atlas, { dbName: databaseName })
     .then(() => {
         console.log(`Connected to ${databaseName}`);
     })
@@ -47,7 +48,7 @@ mongoose.connect(db_url_atlas, { dbName: databaseName })
 app.use(cors());
 
 // Using morgan for logging HTTP requests
-app.use(morgan('dev')); 
+app.use(morgan('dev'));
 
 // Parsing JSON request bodies
 app.use(express.json());
@@ -64,12 +65,13 @@ app.use('/drugs', drugRoutes);
 app.use('/seizures', seizureRoutes);
 app.use('/postCriseForm', postCriseFormDataRoutes);
 app.use('/sensors', sensorRoutes);
+app.use('/doctor', doctorRoute);
 
 // Using custom middleware for handling 404 errors
 app.use(notFoundError);
 
 // Using custom middleware for handling general errors
-app.use(errorHandler); 
+app.use(errorHandler);
 
 // Starting the server and listening on the specified port
 app.listen(PORT, () => {
