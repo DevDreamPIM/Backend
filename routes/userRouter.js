@@ -1,7 +1,7 @@
 import express from 'express';
 import { body } from 'express-validator';
 import multer from '../middlewares/multer-config-user.js';
-import { register, login, sendActivationCode, verifyCode, resetPassword, updateMedicalFile, getMedicalFile,googleSignIn, desactivateAccount } from '../controllers/userController.js';
+import { register, login, sendActivationCode, verifyCode, resetPassword, updateMedicalFile, getMedicalFile,googleSignIn, desactivateAccount, updateProfile } from '../controllers/userController.js';
 import { authenticateToken } from '../middlewares/user-auth.js';
 
 const router = express.Router();
@@ -14,6 +14,13 @@ router.route('/')
         body('lastName').isLength({ min: 2 }).withMessage('Last name must be at least 2 characters long'),
         body('phoneNumber').isLength({ min: 8, max: 8 }).isNumeric().withMessage('Phone number must be at least 8 characters long')
     ], register);
+
+router.route('/updateProfile')
+    .put(multer,[
+        body('firstName').isLength({ min: 2 }).withMessage('First name must be at least 2 characters long'),
+        body('lastName').isLength({ min: 2 }).withMessage('Last name must be at least 2 characters long'),
+        body('phoneNumber').isLength({ min: 8, max: 8 }).isNumeric().withMessage('Phone number must be at least 8 characters long')
+        ], authenticateToken,updateProfile);
 
 router.route('/login').post([body("email").isEmpty().withMessage("email is required"), body("password").isEmpty().withMessage("password is required")], login);
 
