@@ -5,7 +5,7 @@ import cors from "cors";
 import { notFoundError } from "./middlewares/error-handler.js";
 import { errorHandler } from "./middlewares/error-handler.js";
 import dotenv from "dotenv";
-
+import { authenticateToken } from "./middlewares/user-auth.js";
 
 import userRoutes from "./routes/userRouter.js";
 import drugRoutes from "./routes/drugRouter.js";
@@ -61,7 +61,7 @@ app.use('/img', express.static('public/images'));
 
 app.use('/users', userRoutes);
 app.use('/drugs', drugRoutes);
-app.use('/seizures', seizureRoutes);
+app.use('/seizures', authenticateToken, seizureRoutes);
 app.use('/postCriseForm', postCriseFormDataRoutes);
 app.use('/sensors', sensorRoutes);
 
