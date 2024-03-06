@@ -27,7 +27,7 @@ export function register(req, res) {
         const email = req.body.email;
 
         User.findOne({ email })
-            .then(async(exists) => {
+            .then(async (exists) => {
                 if (exists) {
                     return res.status(409).json({ message: 'Email already exists' });
                 }
@@ -93,14 +93,28 @@ export function login(req, res) {
 
                 const token = jwt.sign({ userId: user._id, email },
                     process.env.JWT_SECRET, {
-                        expiresIn: "2h",
-                    }
+                    expiresIn: "2h",
+                }
                 );
                 user.isActivated = 1;
 
 
                 user.save();
-                res.status(200).json({ id: user._id, isActivated: user.isActivated, email: user.email, image: user.image, role: user.role, firstName: user.firstName, lastName: user.lastName, phoneNumber: user.phoneNumber, token });
+                res.status(200).json({
+                    id: user._id,
+                    isActivated: user.isActivated,
+                    email: user.email,
+                    image: user.image,
+                    role: user.role,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    phoneNumber: user.phoneNumber,
+                    birthDate: user.birthDate,
+                    weight: user.weight,
+                    height: user.height,
+                    numP: user.numP,
+                    token
+                });
             } else {
                 res.status(500).json('Invalid Credentials!');
             }
@@ -303,7 +317,7 @@ export async function googleSignIn(req, res) {
         res.status(401).json({ error: 'Token verification failed' });
     }
 
-    
+
 }
 
 export function mailexisting(req, res) {
@@ -313,9 +327,10 @@ export function mailexisting(req, res) {
             res.status(200).json({ message: 'true' });
         } else {
             res.status(200).json({ message: 'false' });
-        }}).catch(err => {
-            res.status(500).json({ message: err });
-        });
+        }
+    }).catch(err => {
+        res.status(500).json({ message: err });
+    });
 }
 export function desactivateAccount(req, res) {
     const id = req.body.id;
@@ -333,7 +348,7 @@ export function desactivateAccount(req, res) {
         return res.status(500).json({ message: 'Internal Server Error' });
     });
 }
-
+ 
 
 export function updateProfile(req, res) {
     if (!validationResult(req).isEmpty()) {
