@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const seizureSchema = new Schema({
-    user: {
+    userId: {
         type: Schema.Types.ObjectId,
         ref: "User",
         required: false
