@@ -3,7 +3,7 @@ import Seizure from "../models/seizure.js";
 import postCriseFormData from "../models/postCriseFormData.js";
 
 export async function createSeizure(req, res) {
-    const {formDataId, date, startTime, endTime, duration, location, type, emergencyServicesCalled, medicalAssistance, severity } = req.body;
+    const { date, startTime, endTime, duration, location, type, emergencyServicesCalled, medicalAssistance, severity } = req.body;
 
     if (!date || !startTime || !endTime || !location || !type || !emergencyServicesCalled || !severity) {
         return res.status(400).json({ error: 'date, startTime, endTime, location, emergencyServicesCalled, severity, and type are required fields.' });
@@ -26,16 +26,16 @@ export async function createSeizure(req, res) {
         // Enregistrer la crise dans la base de données
         const savedSeizure = await newSeizure.save();
 
-        // Créer un nouveau formulaire associé à la crise
+       /* // Créer un nouveau formulaire associé à la crise
         const newFormData = new postCriseFormData({
             criseId: savedSeizure._id,
             // Autres champs de formulaire ici
-        });
+        });*/
 
         // Enregistrer le formulaire dans la base de données
-        const savedFormData = await newFormData.save();
+       // const savedFormData = await newFormData.save();
 
-        res.status(201).json({ seizure: savedSeizure, formData: savedFormData });
+        res.status(201).json({ seizure: savedSeizure});
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

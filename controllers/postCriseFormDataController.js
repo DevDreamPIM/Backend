@@ -1,12 +1,11 @@
 import PostCriseFormData from '../models/postCriseFormData.js';
+import seizure from '../models/seizure.js';
 
 // Créer un formulaire de crise
 export const createPostCriseFormData = async (req, res) => {
   try {
-    const {selectedHours, selectedMinutes, visualAuraChecked, sensoryAuraChecked, auditoryAuraChecked, gustatoryOrOlfactoryAuraChecked, headachesChecked, excessiveFatigueChecked, abnormalMoodChecked, sleepDisturbancesChecked, concentrationDifficultiesChecked, increasedSensitivityChecked, triggerFactorsSelection, injured, conscious, episodes, memoryDisturbances, assistance, advice, emotionalStateRating, recoveryRating, stressAnxietyRating, medicalCareRating, response1, response2, response3 } = req.body;
-
-    const newFormData = new PostCriseFormData({
-      criseId: savedSeizure._id,      
+    const {
+      criseId, 
       selectedHours,
       selectedMinutes,
       visualAuraChecked,
@@ -32,7 +31,37 @@ export const createPostCriseFormData = async (req, res) => {
       medicalCareRating,
       response1,
       response2,
-      response3
+      response3,
+    } = req.body;
+
+    const newFormData = new PostCriseFormData({
+      criseId, 
+      selectedHours,
+      selectedMinutes,
+      visualAuraChecked,
+      sensoryAuraChecked,
+      auditoryAuraChecked,
+      gustatoryOrOlfactoryAuraChecked,
+      headachesChecked,
+      excessiveFatigueChecked,
+      abnormalMoodChecked,
+      sleepDisturbancesChecked,
+      concentrationDifficultiesChecked,
+      increasedSensitivityChecked,
+      triggerFactorsSelection,
+      injured,
+      conscious,
+      episodes,
+      memoryDisturbances,
+      assistance,
+      advice,
+      emotionalStateRating,
+      recoveryRating,
+      stressAnxietyRating,
+      medicalCareRating,
+      response1,
+      response2,
+      response3,
     });
 
     await newFormData.save();
@@ -41,6 +70,7 @@ export const createPostCriseFormData = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
 
 // Récupérer le formulaire de crise par l'ID de la crise
 export const getPostCriseFormDataByCriseId = async (req, res) => {
