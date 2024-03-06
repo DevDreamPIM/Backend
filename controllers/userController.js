@@ -333,3 +333,49 @@ export function desactivateAccount(req, res) {
         return res.status(500).json({ message: 'Internal Server Error' });
     });
 }
+
+
+export function updateProfile(req, res) {
+    if (!validationResult(req).isEmpty()) {
+        console.log({ errors: validationResult(req).array() });
+        return res.status(400).json({ errors: validationResult(req).array() });
+    } else {
+        const userId = req.user.userId; // Adjust based on how you're getting the user ID
+
+        User.findById(userId)
+            .then(async (user) => {
+                if (!user) {
+                    return res.status(404).json({ message: 'User not found' });
+                }
+
+                // Assuming you want to update the existing fields or add new fields if they're provided
+                user.firstName = req.body.firstName || user.firstName;
+                user.lastName = req.body.lastName || user.lastName;
+                user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
+                if (req.file) { // Assuming multer is used for file uploads and req.file contains the uploaded file
+                    user.image = req.file.filename; 
+                }
+
+                // Handling numP as an array. Assuming numP is sent as a JSON string.
+                if (req.body.numP) {
+                    try {
+                        // Parse numP from JSON string to array and add (concatenate) it to the existing array
+                        let numPArray = JSON.parse(req.body.numP);
+                        if (Array.isArray(numPArray)) {
+                            user.numP = user.numP.concat(numPArray);
+                        } else {
+                            throw new Error('numP is not an array');
+                        }
+                    } catch (error) {
+                        return res.status(400).json({ message: 'Invalid numP format', error: error.message });
+                    }
+                }
+
+                const updatedUser = await user.save();
+                res.status(200).json(updatedUser);
+            })
+            .catch(error => {
+                res.status(500).json({ message: error.message });
+            });
+    }
+}
