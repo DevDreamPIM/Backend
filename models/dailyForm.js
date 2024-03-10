@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
-const { Schema, model } = mongoose;
+
+const {Schema,model} = mongoose;
 
 const dailyFormSchema = new Schema({
     userId: {
