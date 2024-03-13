@@ -1,5 +1,7 @@
 import PostCriseFormData from '../models/postCriseFormData.js';
 import seizure from '../models/seizure.js';
+import axios from 'axios';
+
 
 
 // Créer un formulaire de crise
@@ -34,6 +36,8 @@ export const createPostCriseFormData = async (req, res) => {
       response1,
       response2,
       response3,
+      
+      
     } = req.body;
 
     const newFormData = new PostCriseFormData({
@@ -65,15 +69,34 @@ export const createPostCriseFormData = async (req, res) => {
       response1,
       response2,
       response3,
+      submitted: true,
+      
+      
     });
 
     await newFormData.save();
+    //await axios.post(`http://192.168.1.17:9090/updateFormSubmittedStatus/${newFormData._id}`);
     res.status(201).json(newFormData);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
+/*
+// Mise à jour de l'état de soumission du formulaire
+export const updateFormSubmittedStatus = async (req, res) => {
+  const formId = req.params.formId;
+  
+  try {
+      // Mettre à jour l'attribut submitted pour le formulaire avec l'ID donné
+      await PostCriseFormData.findByIdAndUpdate(formId, { submitted: true });
+
+      res.status(200).json({ message: 'Form submitted status updated successfully' });
+  } catch (error) {
+      console.error('Error updating form submitted status:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+};*/
 
 // Récupérer le formulaire de crise par l'ID de la crise
 export const getPostCriseFormDataByCriseId = async (req, res) => {

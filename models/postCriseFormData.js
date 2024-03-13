@@ -11,7 +11,6 @@ const postCriseFormDataSchema = new Schema({
     visualAuraChecked: { type: Boolean, required: false },
     sensoryAuraChecked: { type: Boolean, required: false },
     auditoryAuraChecked: { type: Boolean, required: false },
-    medicationIntake: { type: Boolean, required: true },
     gustatoryOrOlfactoryAuraChecked: { type: Boolean, required: false },
     headachesChecked: { type: Boolean, required: false },
     excessiveFatigueChecked: { type: Boolean, required: false },
@@ -33,6 +32,7 @@ const postCriseFormDataSchema = new Schema({
     medicalCareRating: { type: Number, required: true },
     advice: { type: Boolean, required: true },
     response3: { type: String, required: false },
+    submitted: { type: Boolean, default: false } // Champ indiquant si le formulaire a été soumis
 }, {
     timestamps: true
 });
