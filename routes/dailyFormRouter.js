@@ -1,13 +1,13 @@
 import express from 'express';
-import { createDailyForm, getAllDailyForms, getDailyFormById, updateDailyForm, deleteDailyForm } from '../controllers/dailyFormController.js';
+import {createDailyForm,getAllDailyForms,getDailyFormById,updateDailyForm,deleteDailyForm} from '../controllers/dailyFormController.js';   
 
 
 const router = express.Router();
 
-router.post('/', createDailyForm);
-router.get('/', getAllDailyForms);
-router.get('/:id',getDailyFormById);
-router.put('/:id', updateDailyForm);
-router.delete('/:id', deleteDailyForm);
+router.post('/',createDailyForm);
+router.post('/',getAllDailyForms);
+router.post('/:id',getDailyFormById);
+router.post('/:id',updateDailyForm);
+router.post('/:id',deleteDailyForm);
 
-export default router ;                   
+export default router;
