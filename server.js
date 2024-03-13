@@ -12,7 +12,9 @@ import drugRoutes from "./routes/drugRouter.js";
 import sensorRoutes from "./routes/sensorRouter.js";
 import seizureRoutes from "./routes/seizureRouter.js";
 import postCriseFormDataRoutes from "./routes/postCriseFormDataRoutes.js";
-import dailyFormDataRoutes from "./routes/dailyFormRouter.js";
+//import dailyFormDataRoutes from "./routes/dailyFormDataRoutes.js";
+
+
 
 
 dotenv.config();
@@ -35,19 +37,19 @@ mongoose.Promise = global.Promise;
 
 // Connecting to the MongoDB database
 mongoose.connect(`mongodb://127.0.0.1:27017/${databaseName}`)
-// mongoose.connect(db_url_atlas, { dbName: databaseName }) 
-//     .then(() => {
-//         console.log(`Connected to ${databaseName}`);
-//     })
-//     .catch((error) => {
-//         console.log(error);
-//     });
+//mongoose.connect(db_url_atlas, { dbName: databaseName }) 
+   // .then(() => {
+    //    console.log(`Connected to ${databaseName}`);
+  //  })
+   // .catch((error) => {
+   //     console.log(error);
+ //   });
 
 // Enabling Cross-Origin Resource Sharing
 app.use(cors());
 
 // Using morgan for logging HTTP requests
-app.use(morgan('dev')); 
+app.use(morgan('dev'));
 
 // Parsing JSON request bodies
 app.use(express.json());
@@ -65,6 +67,7 @@ app.use('/seizures', authenticateToken, seizureRoutes);
 app.use('/postCriseForm', postCriseFormDataRoutes);
 app.use('/dailyForm', authenticateToken, dailyFormDataRoutes);
 app.use('/sensors', sensorRoutes);
+app.use('/doctor', doctorRoute);
 
 
 
@@ -72,7 +75,7 @@ app.use('/sensors', sensorRoutes);
 app.use(notFoundError);
 
 // Using custom middleware for handling general errors
-app.use(errorHandler); 
+app.use(errorHandler);
 
 // Starting the server and listening on the specified port
 app.listen(PORT, () => {
