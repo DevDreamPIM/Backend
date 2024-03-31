@@ -11,8 +11,8 @@ import drugRoutes from "./routes/drugRouter.js";
 import sensorRoutes from "./routes/sensorRouter.js";
 import seizureRoutes from "./routes/seizureRouter.js";
 import postCriseFormDataRoutes from "./routes/postCriseFormDataRoutes.js";
-//import dailyFormDataRoutes from "./routes/dailyFormDataRoutes.js";
-
+// import dailyFormDataRoutes from "./routes/dailyFormDataRoutes.js";
+import doctorRoute from "./routes/doctorRoute.js";
 
 
 
@@ -36,13 +36,13 @@ mongoose.Promise = global.Promise;
 
 // Connecting to the MongoDB database
 mongoose.connect(`mongodb://127.0.0.1:27017/${databaseName}`)
-//mongoose.connect(db_url_atlas, { dbName: databaseName }) 
-   // .then(() => {
-    //    console.log(`Connected to ${databaseName}`);
-  //  })
-   // .catch((error) => {
-   //     console.log(error);
- //   });
+    // mongoose.connect(db_url_atlas, { dbName: databaseName })
+    .then(() => {
+        console.log(`Connected to ${databaseName}`);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
 
 // Enabling Cross-Origin Resource Sharing
 app.use(cors());
@@ -64,7 +64,7 @@ app.use('/users', userRoutes);
 app.use('/drugs', drugRoutes);
 app.use('/seizures', authenticateToken, seizureRoutes);
 app.use('/postCriseForm', postCriseFormDataRoutes);
-app.use('/dailyForm', authenticateToken, dailyFormDataRoutes);
+// app.use('/dailyForm', authenticateToken, dailyFormDataRoutes);
 app.use('/sensors', sensorRoutes);
 app.use('/doctor', doctorRoute);
 
