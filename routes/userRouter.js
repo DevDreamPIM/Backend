@@ -1,7 +1,7 @@
 import express from 'express';
 import { body } from 'express-validator';
 import multer from '../middlewares/multer-config-user.js';
-import { register, login, sendActivationCode, verifyCode, resetPassword, updateMedicalFile, getMedicalFile,googleSignIn, desactivateAccount, updateProfile } from '../controllers/userController.js';
+import { register, login, sendActivationCode, verifyCode, resetPassword, updateMedicalFile, getMedicalFile, googleSignIn, desactivateAccount, updateProfile } from '../controllers/userController.js';
 import { authenticateToken } from '../middlewares/user-auth.js';
 
 const router = express.Router();
@@ -16,11 +16,11 @@ router.route('/')
     ], register);
 
 router.route('/updateProfile')
-    .put(multer,[
+    .put(multer, [
         body('firstName').isLength({ min: 2 }).withMessage('First name must be at least 2 characters long'),
         body('lastName').isLength({ min: 2 }).withMessage('Last name must be at least 2 characters long'),
         body('phoneNumber').isLength({ min: 8, max: 8 }).isNumeric().withMessage('Phone number must be at least 8 characters long')
-        ], authenticateToken,updateProfile);
+    ], authenticateToken, updateProfile);
 
 router.route('/login').post([body("email").isEmpty().withMessage("email is required"), body("password").isEmpty().withMessage("password is required")], login);
 
@@ -42,7 +42,7 @@ router.route('/updateMedicalFile').put(
         })
     ], authenticateToken, updateMedicalFile);
 
-router.route('/getMedicalFile/:id').get(authenticateToken,getMedicalFile);
+router.route('/getMedicalFile/:id').get(authenticateToken, getMedicalFile);
 router.route('/googleSignIn').post(googleSignIn);
 router.route('/desactivateAccount').post(desactivateAccount);
 
