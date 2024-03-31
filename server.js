@@ -6,7 +6,6 @@ import { notFoundError } from "./middlewares/error-handler.js";
 import { errorHandler } from "./middlewares/error-handler.js";
 import dotenv from "dotenv";
 import { authenticateToken } from "./middlewares/user-auth.js";
-
 import userRoutes from "./routes/userRouter.js";
 import drugRoutes from "./routes/drugRouter.js";
 import sensorRoutes from "./routes/sensorRouter.js";
