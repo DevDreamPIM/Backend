@@ -13,6 +13,7 @@ import seizureRoutes from "./routes/seizureRouter.js";
 import postCriseFormDataRoutes from "./routes/postCriseFormDataRoutes.js";
 // import dailyFormDataRoutes from "./routes/dailyFormDataRoutes.js";
 import doctorRoute from "./routes/doctorRoute.js";
+import adminRoute from "./routes/adminRoute.js";
 
 
 
@@ -67,6 +68,7 @@ app.use('/postCriseForm', postCriseFormDataRoutes);
 // app.use('/dailyForm', authenticateToken, dailyFormDataRoutes);
 app.use('/sensors', sensorRoutes);
 app.use('/doctor', doctorRoute);
+app.use('/admin', adminRoute);
 
 
 
