@@ -394,3 +394,47 @@ export function updateProfile(req, res) {
             });
     }
 }
+
+
+export function updateUserRole(req, res) {
+    const { id } = req.params;
+    const { role } = req.body;
+
+    User.findByIdAndUpdate(id, { role }, { new: true })
+        .then( async user => {
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+            
+
+            const updatedUser = await user.save();
+            //print(updatedUser.email);
+
+            sendEmail({
+                to: updatedUser.email,
+                subject: 'Epilepto-Guard Modification role',
+                text: `
+                <body style='font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 0;'>
+    <table width='100%' cellpadding='0' style='max-width: 600px; margin: 20px auto; background-color: #fff; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'>
+        <tr>
+            <td style='padding: 20px;'>
+                <h2 style='color: #333;'>Role Update</h2>
+                <p>Dear ${updatedUser.firstName} ${updatedUser.lastName},</p>
+                <p>Your role has been updated by the admin. Your new role is: ${updatedUser.role}</p>
+                <p>Thank you!</p>
+                <p><strong>Epilepto Guard Team</strong></p>
+            </td>
+        </tr>
+    </table>
+</body>
+
+            `
+            });
+
+            res.status(200).json(updatedUser);
+        })
+        .catch(err => {
+            res.status(500).json({ message: err });
+        });
+}
+
