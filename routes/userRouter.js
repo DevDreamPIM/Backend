@@ -1,20 +1,9 @@
 import express from 'express';
 import { body } from 'express-validator';
 import multer from '../middlewares/multer-config-user.js';
-import { register, login, sendActivationCode, verifyCode, resetPassword, updateMedicalFile, getMedicalFile, googleSignIn, desactivateAccount, updateProfile,updateUserRole } from '../controllers/userController.js';
+import { register, login, sendActivationCode, verifyCode, resetPassword, updateMedicalFile, getMedicalFile, googleSignIn, desactivateAccount, updateProfile } from '../controllers/userController.js';
 import { authenticateToken } from '../middlewares/user-auth.js';
-import user from '../models/user.js';
 
-function isAdmin(req, res, next) {
-    user.findById(req.user.userId).then(user => {
-        // Check if the user has the 'admin' role
-        if (user.role === 'admin') {
-            return next(); // User is an admin, proceed to the next middleware or route handler
-        } else {
-            return res.status(403).json({ message: 'Unauthorized' }); // User is not an admin, send a forbidden response
-        }
-    })
-    }
 
 const router = express.Router();
 
@@ -57,9 +46,7 @@ router.route('/updateMedicalFile').put(
 router.route('/getMedicalFile/:id').get(authenticateToken, getMedicalFile);
 router.route('/googleSignIn').post(googleSignIn);
 router.route('/desactivateAccount').post(desactivateAccount);
-router.route('/admin/:id')
-    
-    .put(authenticateToken,isAdmin,updateUserRole);
+
 
 
 
