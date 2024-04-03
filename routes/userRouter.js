@@ -4,6 +4,7 @@ import multer from '../middlewares/multer-config-user.js';
 import { register, login, sendActivationCode, verifyCode, resetPassword, updateMedicalFile, getMedicalFile, googleSignIn, desactivateAccount, updateProfile } from '../controllers/userController.js';
 import { authenticateToken } from '../middlewares/user-auth.js';
 
+
 const router = express.Router();
 
 router.route('/')

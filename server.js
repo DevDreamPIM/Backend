@@ -68,7 +68,7 @@ app.use('/postCriseForm', postCriseFormDataRoutes);
 // app.use('/dailyForm', authenticateToken, dailyFormDataRoutes);
 app.use('/sensors', sensorRoutes);
 app.use('/doctor', doctorRoute);
-app.use('/admin', adminRoute);
+app.use('/admin',authenticateToken, adminRoute);
 
 
 

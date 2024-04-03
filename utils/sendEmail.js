@@ -11,7 +11,7 @@ export function sendEmail(options) {
     });
 
     const mailOptions = {
-        from: process.env.EMAIL_USER,
+        from: `Epilepto Guard <${process.env.EMAIL_USER}>`,
         to: options.to,
         subject: options.subject,
         html: options.text,
