@@ -17,6 +17,7 @@ import adminRoute from "./routes/adminRoute.js";
 
 
 
+
 dotenv.config();
 // Creating an express app
 const app = express();
@@ -37,7 +38,7 @@ mongoose.Promise = global.Promise;
 
 // Connecting to the MongoDB database
 mongoose.connect(`mongodb://127.0.0.1:27017/${databaseName}`)
-    // mongoose.connect(db_url_atlas, { dbName: databaseName })
+     //mongoose.connect(db_url_atlas, { dbName: databaseName })
     .then(() => {
         console.log(`Connected to ${databaseName}`);
     })
@@ -65,7 +66,7 @@ app.use('/users', userRoutes);
 app.use('/drugs', drugRoutes);
 app.use('/seizures', authenticateToken, seizureRoutes);
 app.use('/postCriseForm', postCriseFormDataRoutes);
-// app.use('/dailyForm', authenticateToken, dailyFormDataRoutes);
+//app.use('/dailyForm', authenticateToken, dailyFormDataRoutes);
 app.use('/sensors', sensorRoutes);
 app.use('/doctor', doctorRoute);
 app.use('/admin',authenticateToken, adminRoute);
