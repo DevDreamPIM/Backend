@@ -32,6 +32,7 @@ const postCriseFormDataSchema = new Schema({
     medicalCareRating: { type: Number, required: true },
     advice: { type: Boolean, required: true },
     response3: { type: String, required: false },
+    submitted: { type: Boolean, default: false } // Champ indiquant si le formulaire a été soumis
 }, {
     timestamps: true
 });
