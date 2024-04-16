@@ -1,5 +1,6 @@
 import Feedback from '../models/feedback.js';
 import User from '../models/user.js';
+import { sendEmail } from '../utils/sendEmail.js';
 
 export function addFeedback(req, res) {
     Feedback.create({
@@ -70,6 +71,6 @@ export function updateUserRole(req, res) {
             res.status(200).json(updatedUser);
         })
         .catch(err => {
-            res.status(500).json({ message: err });
+            res.status(500).json({ message: err.message });
         });
 }
