@@ -17,6 +17,7 @@ import adminRoute from "./routes/adminRoute.js";
 
 
 
+
 dotenv.config();
 // Creating an express app
 const app = express();
@@ -26,7 +27,7 @@ const PORT = 9090 || process.env.PORT;
 
 // Specifying the MongoDB database name
 const databaseName = 'epilepto-guard';
-//const db_url_atlas = process.env.DB_URL_ATLAS || 'mongodb+srv://topadmin:topadmin@cluster0.8m1dzlk.mongodb.net/?retryWrites=true&w=majority'
+const db_url_atlas = process.env.DB_URL_ATLAS || 'mongodb+srv://topadmin:topadmin@cluster0.8m1dzlk.mongodb.net/?retryWrites=true&w=majority'
 
 
 // Enabling debug mode for mongoose
@@ -36,8 +37,8 @@ mongoose.set('debug', true);
 mongoose.Promise = global.Promise;
 
 // Connecting to the MongoDB database
-mongoose.connect(`mongodb://127.0.0.1:27017/${databaseName}`)
-    // mongoose.connect(db_url_atlas, { dbName: databaseName })
+//mongoose.connect(`mongodb://127.0.0.1:27017/${databaseName}`)
+     mongoose.connect(db_url_atlas, { dbName: databaseName })
     .then(() => {
         console.log(`Connected to ${databaseName}`);
     })
@@ -65,7 +66,7 @@ app.use('/users', userRoutes);
 app.use('/drugs', drugRoutes);
 app.use('/seizures', authenticateToken, seizureRoutes);
 app.use('/postCriseForm', postCriseFormDataRoutes);
-// app.use('/dailyForm', authenticateToken, dailyFormDataRoutes);
+//app.use('/dailyForm', authenticateToken, dailyFormDataRoutes);
 app.use('/sensors', sensorRoutes);
 app.use('/doctor', doctorRoute);
 app.use('/admin',authenticateToken, adminRoute);

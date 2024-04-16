@@ -25,7 +25,7 @@ export function getUsers(req, res) {
 
 
 export function getFeedback(req, res) {
-    User.find({ userId: req.params.id }).then(feedback => {
+    Feedback.find({ userId: req.params.id }).then(feedback => {
         res.status(200).json({ data: feedback });
     }).catch(err => {
         res.status(500).json({ message: err })
@@ -38,11 +38,11 @@ export function updateUserRole(req, res) {
     const { role } = req.body;
 
     User.findByIdAndUpdate(id, { role }, { new: true })
-        .then( async user => {
+        .then(async user => {
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });
             }
-            
+
 
             const updatedUser = await user.save();
             //print(updatedUser.email);
