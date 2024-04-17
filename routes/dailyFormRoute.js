@@ -5,9 +5,9 @@ import {createDailyForm,getAllDailyForms,getDailyFormById,updateDailyForm,delete
 const router = express.Router();
 
 router.post('/',createDailyForm);
-router.post('/',getAllDailyForms);
-router.post('/:id',getDailyFormById);
-router.post('/:id',updateDailyForm);
-router.post('/:id',deleteDailyForm);
+router.get('/',getAllDailyForms);
+router.get('/:id',getDailyFormById);
+router.put('/:id',updateDailyForm);
+router.delete('/:id',deleteDailyForm);
 
 export default router;
