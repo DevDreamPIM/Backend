@@ -4,11 +4,11 @@ import mongoose from 'mongoose';
 const {Schema,model} = mongoose;
 
 const dailyFormSchema = new Schema({
-    userId: {
+   /* userId: {
         type: Schema.Types.ObjectId,
         ref: "User",
         required: false
-    },
+    },*/
 
     bedTime: {
         hour: { type: Number, required: true },
