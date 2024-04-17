@@ -4,11 +4,11 @@ import mongoose from 'mongoose';
 const {Schema,model} = mongoose;
 
 const dailyFormSchema = new Schema({
-    userId: {
+   /* userId: {
         type: Schema.Types.ObjectId,
         ref: "User",
         required: false
-    },
+    },*/
 
     bedTime: {
         hour: { type: Number, required: true },
@@ -26,7 +26,7 @@ const dailyFormSchema = new Schema({
     flashingLights: { type: Number, required: false },
     exercise: { type: Number, required: false },
     mealSleepNoValue: { type: String, required: true },
-    recentChanges: { type: String, required: true },
+    recentChanges: { type: String, required: false },
     visualAuraChecked: { type: Boolean, required: true },
     sensoryAuraChecked: { type: Boolean, required: true },
     auditoryAuraChecked: { type: Boolean, required: true },
