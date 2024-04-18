@@ -29,7 +29,8 @@ const userSchema = new Schema({
     },
     birthDate: {
         type: Date,
-        required: false
+        required: false,
+        default: new Date('2000-07-21'),
     },
     resetCode: {
         type: Number,
@@ -48,11 +49,13 @@ const userSchema = new Schema({
     weight: {
         type: Number,
         required: false,
+        default: 63,
     },
 
     height: {
         type: Number,
         required: false,
+        default: 172,
     },
     doctor: {
         type: Schema.Types.ObjectId,
