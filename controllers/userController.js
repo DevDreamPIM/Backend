@@ -5,6 +5,7 @@ import { validationResult } from "express-validator";
 import jwt from 'jsonwebtoken';
 import { sendEmail } from '../utils/sendEmail.js';
 import { OAuth2Client } from 'google-auth-library';
+import nodemailer from 'nodemailer';
 
 // Register a new user
 export function register(req, res) {
@@ -27,7 +28,7 @@ export function register(req, res) {
         const email = req.body.email;
 
         User.findOne({ email })
-            .then(async (exists) => {
+            .then(async(exists) => {
                 if (exists) {
                     return res.status(409).json({ message: 'Email already exists' });
                 }
@@ -93,8 +94,8 @@ export function login(req, res) {
 
                 const token = jwt.sign({ userId: user._id, email },
                     process.env.JWT_SECRET, {
-                    expiresIn: "2h",
-                }
+                        expiresIn: "2h",
+                    }
                 );
                 user.isActivated = 1;
 
@@ -334,13 +335,52 @@ export function mailexisting(req, res) {
 }
 export function desactivateAccount(req, res) {
     const id = req.body.id;
-    console.log(id);
 
     User.findById(id).then((user) => {
-
-        console.log(id);
         user.isActivated = 0;
-        user.save()
+        user.save();
+
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.SENDER_EMAIL,
+                pass: process.env.PASSWORD_EMAIL
+            },
+        });
+        transporter.sendMail({
+            from: process.env.SENDER_EMAIL,
+            to: user.email,
+            subject: 'Account Deactivation',
+            html: `<body style="font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f9f9f9;">
+            <div style="max-width: 600px; margin: auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+            <div style="max-width: 600px; margin: auto; background-color: rgba(128, 0, 128, 0.6); color: #fff; text-align: center; border-top-left-radius: 20px; border-top-right-radius: 20px;">
+            <h1 style="margin: 20px 0; font-size: 32px;">Account Deactivation</h1>
+        </div>
+                <div style="padding: 20px;">
+                    <p>Dear <span style="font-weight: bold;">${user.firstName} ${user.lastName}</span>,</p>
+                    <p>This email serves as confirmation that your account with <strong style="color: #800080;">EpileptoGuard</strong> has been deactivated as per your request.</p>
+                    <p>We have processed your request to deactivate your account, effective immediately.</p>
+                    <p>If you wish to reactivate your account, you can do so by logging in again with your credentials. Please note that if you reactivate your account within a certain period, your data may still be available.</p>
+                    <p>If you have any concerns or require further assistance, please do not hesitate to contact our support team at <strong style="color: #800080;">epileptoguard@gmail.com</strong>. We are here to help.</p>
+                    <p>Thank you for using <strong style="color: #800080;">EpileptoGuard</strong>. We appreciate your past patronage and wish you all the best in your future endeavors.</p>
+                </div>
+                <div style="max-width: 600px; margin: auto; background-color: #800080; color: #fff; text-align: center; padding: 20px; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; animation: pulse 2s infinite alternate;">
+                    <p>&copy; 2024 <strong>EpileptoGuard</strong>. All rights reserved.</p>
+                </div>
+            </div>
+            
+        <style>
+        @keyframes pulse {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.02);
+            }
+        }
+        </style>
+        </body>`,
+        });
 
         return res.status(200).json({ message: 'Deactivated' });
     }).catch((err) => {
@@ -348,7 +388,7 @@ export function desactivateAccount(req, res) {
         return res.status(500).json({ message: 'Internal Server Error' });
     });
 }
- 
+
 
 export function updateProfile(req, res) {
     if (!validationResult(req).isEmpty()) {
@@ -358,7 +398,7 @@ export function updateProfile(req, res) {
         const userId = req.user.userId; // Adjust based on how you're getting the user ID
 
         User.findById(userId)
-            .then(async (user) => {
+            .then(async(user) => {
                 if (!user) {
                     return res.status(404).json({ message: 'User not found' });
                 }
@@ -368,7 +408,7 @@ export function updateProfile(req, res) {
                 user.lastName = req.body.lastName || user.lastName;
                 user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
                 if (req.file) { // Assuming multer is used for file uploads and req.file contains the uploaded file
-                    user.image = req.file.filename; 
+                    user.image = req.file.filename;
                 }
 
                 // Handling numP as an array. Assuming numP is sent as a JSON string.
@@ -394,7 +434,3 @@ export function updateProfile(req, res) {
             });
     }
 }
-
-
-
-
