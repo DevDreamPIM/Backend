@@ -3,12 +3,12 @@ import DailyForm from "../models/dailyForm.js";
 // Créer une nouvelle instance de formulaire quotidien
 export async function createDailyForm(req, res) {
     const { bedTime, wakeUpTime, stress, alcoholDrug, medication, moodchanges, sleeping, flashingLights, exercise, mealSleepNoValue, recentChanges, visualAuraChecked, sensoryAuraChecked, auditoryAuraChecked, gustatoryOrOlfactoryAuraChecked, headachesChecked, excessiveFatigueChecked, abnormalMoodChecked, sleepDisturbancesChecked, concentrationDifficultiesChecked, increasedSensitivityChecked } = req.body;
-    const userId = req.user.userId; // Récupérer l'ID de l'utilisateur à partir de la session
+    //const userId = req.user.userId; // Récupérer l'ID de l'utilisateur à partir de la session
 
     try {
         // Créer une nouvelle instance de formulaire quotidien
         const newDailyForm = new DailyForm({
-            userId,
+            //userId,
             bedTime,
             wakeUpTime,
             stress,
@@ -56,7 +56,7 @@ export async function getAllDailyForms(req, res) {
 
 // Récupérer un formulaire quotidien par son ID
 export async function getDailyFormById(req, res) {
-    const userId = req.user.userId; // Récupérer l'ID de l'utilisateur à partir de la session
+    //const userId = req.user.userId; // Récupérer l'ID de l'utilisateur à partir de la session
     const formId = req.params.id;
 
     try {
@@ -80,7 +80,7 @@ export async function getDailyFormById(req, res) {
 // Mettre à jour un formulaire quotidien
 export async function updateDailyForm(req, res) {
     const formId = req.params.id;
-    const userId = req.user.userId; // Récupérer l'ID de l'utilisateur à partir de la session
+   // const userId = req.user.userId; // Récupérer l'ID de l'utilisateur à partir de la session
     const { bedTime, wakeUpTime, stress, alcoholDrug, medication, moodchanges, sleeping, flashingLights, exercise, mealSleepNoValue, recentChanges, visualAuraChecked, sensoryAuraChecked, auditoryAuraChecked, gustatoryOrOlfactoryAuraChecked, headachesChecked, excessiveFatigueChecked, abnormalMoodChecked, sleepDisturbancesChecked, concentrationDifficultiesChecked, increasedSensitivityChecked } = req.body;
 
     try {
@@ -129,7 +129,7 @@ export async function updateDailyForm(req, res) {
 // Supprimer un formulaire quotidien
 export async function deleteDailyForm(req, res) {
     const formId = req.params.id;
-    const userId = req.user.userId; // Récupérer l'ID de l'utilisateur à partir de la session
+    //const userId = req.user.userId; // Récupérer l'ID de l'utilisateur à partir de la session
 
     try {
         // Vérifier si le formulaire appartient à l'utilisateur

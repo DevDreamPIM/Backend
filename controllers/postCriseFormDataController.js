@@ -104,7 +104,7 @@ export const getPostCriseFormDataByCriseId = async (req, res) => {
     try {
       const formData = await PostCriseFormData.findOne({ id: criseId });
       if (!formData) {
-        return res.status(404).json({ message: 'Form data for the specified crise not found' });
+        return ({ message: 'Form data for the specified crise not found' });
       }
       res.status(200).json(formData);
     } catch (error) {

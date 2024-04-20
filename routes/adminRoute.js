@@ -24,8 +24,7 @@ function isAdmin(req, res, next) {
 router.route('/addFeedback').post(addFeedback);
 router.route('/getUsers').get(getUsers);
 router.route('/getFeedback/:id').get(getFeedback);
-router.route('/:id')
-    
-    .put(authenticateToken,isAdmin,updateUserRole);
+router.route('/users/:id')
+    .put(isAdmin,updateUserRole);
 
 export default router;
