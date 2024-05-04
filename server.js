@@ -14,6 +14,8 @@ import postCriseFormDataRoutes from "./routes/postCriseFormDataRoutes.js";
 import dailyFormRoute from "./routes/dailyFormRoute.js";
 import doctorRoute from "./routes/doctorRoute.js";
 import adminRoute from "./routes/adminRoute.js";
+import forumRoute from "./routes/forumRoute.js";
+
 
 
 
@@ -70,6 +72,7 @@ app.use('/dailyForm', authenticateToken, dailyFormRoute);
 app.use('/sensors', sensorRoutes);
 app.use('/doctor', doctorRoute);
 app.use('/admin',authenticateToken, adminRoute);
+app.use('/description', forumRoute);
 
 
 
