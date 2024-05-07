@@ -34,38 +34,34 @@ export function getAllFeedbacks(req, res) {
 
   export async function updateFeedback(req, res) {
     try {
-      const descriptionToUpdate = req.params.description; // Extract name from request parameters
+      const descriptionToUpdate = req.params.description; // Extrait la description des paramètres de la requête
+    
+      // Construit les données de feedback mises à jour
+      let newForumData = {
+        description: req.body.description || descriptionToUpdate, // Utilise la description de la requête s'il y en a une, sinon utilise la description existante
+      };
   
-      let newForumData = req.file
-        ? {
-           
-            description: descriptionToUpdate
-            
-          }
-        : {
-            
-            description: descriptionToUpdate
-            
-          };
-  
+      // Met à jour le feedback dans la base de données
       let updatedFeedback = await Forum.findOneAndUpdate(
         { description: descriptionToUpdate }, 
         newForumData,
         { new: true }
       );
   
+      // Gère les réponses
       if (updatedFeedback) {
-        console.log("Drug updated successfully:", updatedFeedback);
+        console.log("Feedback mis à jour avec succès :", updatedFeedback);
         res.status(200).json(updatedFeedback);
       } else {
-        console.log("Drug not found.");
-        res.status(404).json({ error: "Drug not found" });
+        console.log("Feedback non trouvé.");
+        res.status(404).json({ error: "Feedback non trouvé" });
       }
     } catch (err) {
-      console.error("Error during drug update:", err);
-      res.status(500).json({ error: err.message || "Internal Server Error" });
+      console.error("Erreur lors de la mise à jour du feedback :", err);
+      res.status(500).json({ error: err.message || "Erreur interne du serveur" });
     }
   }
+  
 
   export function deleteFeedback(req, res) {
     const { description } = req.params;
