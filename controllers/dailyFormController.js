@@ -78,7 +78,7 @@ export async function getDailyFormById(req, res) {
     }
 }
 
-// Mettre à jour un formulaire quotidien
+/*// Mettre à jour un formulaire quotidien
 export async function updateDailyForm(req, res) {
     const formId = req.params.id;
     const userId = req.user.userId; // Récupérer l'ID de l'utilisateur à partir de la session
@@ -127,7 +127,37 @@ export async function updateDailyForm(req, res) {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+}*/
+
+// Mettre à jour un formulaire quotidien
+export async function updateDailyForm(req, res) {
+    const formId = req.params.id;
+    const userId = req.user.userId; // Récupérer l'ID de l'utilisateur à partir de la session
+    const { isArchived } = req.body;
+
+    try {
+        // Vérifier si le formulaire quotidien existe
+        const dailyForm = await DailyForm.findById(formId);
+        if (!dailyForm) {
+            return res.status(404).json({ error: 'DailyForm not found' });
+        }
+
+        // Vérifier si le formulaire appartient à l'utilisateur actuellement authentifié
+        if (dailyForm.userId !== userId) {
+            return res.status(403).json({ error: 'Unauthorized access' }); // L'utilisateur n'est pas autorisé à modifier ce formulaire
+        }
+
+        // Mettre à jour le formulaire quotidien avec seulement l'état isArchived
+        dailyForm.isArchived = isArchived;
+        const updatedDailyForm = await dailyForm.save();
+
+        res.status(200).json(updatedDailyForm);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 }
+
+
 
 // Supprimer un formulaire quotidien
 export async function deleteDailyForm(req, res) {
