@@ -37,6 +37,7 @@ const dailyFormSchema = new Schema({
     sleepDisturbancesChecked: { type: Boolean, required: true },
     concentrationDifficultiesChecked: { type: Boolean, required: true },
     increasedSensitivityChecked: { type: Boolean, required: true },
+    isArchived: { type: Boolean, default: false }
 }, 
 { 
     timestamps: true 
