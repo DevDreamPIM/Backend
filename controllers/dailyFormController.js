@@ -2,7 +2,7 @@ import DailyForm from "../models/dailyForm.js";
 
 // Créer une nouvelle instance de formulaire quotidien
 export async function createDailyForm(req, res) {
-    const { bedTime, wakeUpTime, stress, alcoholDrug, medication, moodchanges, sleeping, flashingLights, exercise, mealSleepNoValue, recentChanges, visualAuraChecked, sensoryAuraChecked, auditoryAuraChecked, gustatoryOrOlfactoryAuraChecked, headachesChecked, excessiveFatigueChecked, abnormalMoodChecked, sleepDisturbancesChecked, concentrationDifficultiesChecked, increasedSensitivityChecked } = req.body;
+    const { bedTime, wakeUpTime, stress, alcoholDrug, medication, moodchanges, sleeping, flashingLights, exercise, mealSleepNoValue, recentChanges, visualAuraChecked, sensoryAuraChecked, auditoryAuraChecked, gustatoryOrOlfactoryAuraChecked, headachesChecked, excessiveFatigueChecked, abnormalMoodChecked, sleepDisturbancesChecked, concentrationDifficultiesChecked, increasedSensitivityChecked, isArchived } = req.body;
     const userId = req.user.userId; // Récupérer l'ID de l'utilisateur à partir de la session
 
     try {
@@ -29,7 +29,8 @@ export async function createDailyForm(req, res) {
             abnormalMoodChecked,
             sleepDisturbancesChecked,
             concentrationDifficultiesChecked,
-            increasedSensitivityChecked
+            increasedSensitivityChecked,
+            isArchived,
         });
 
         // Enregistrer le formulaire dans la base de données
@@ -81,7 +82,7 @@ export async function getDailyFormById(req, res) {
 export async function updateDailyForm(req, res) {
     const formId = req.params.id;
     const userId = req.user.userId; // Récupérer l'ID de l'utilisateur à partir de la session
-    const { bedTime, wakeUpTime, stress, alcoholDrug, medication, moodchanges, sleeping, flashingLights, exercise, mealSleepNoValue, recentChanges, visualAuraChecked, sensoryAuraChecked, auditoryAuraChecked, gustatoryOrOlfactoryAuraChecked, headachesChecked, excessiveFatigueChecked, abnormalMoodChecked, sleepDisturbancesChecked, concentrationDifficultiesChecked, increasedSensitivityChecked } = req.body;
+    const { bedTime, wakeUpTime, stress, alcoholDrug, medication, moodchanges, sleeping, flashingLights, exercise, mealSleepNoValue, recentChanges, visualAuraChecked, sensoryAuraChecked, auditoryAuraChecked, gustatoryOrOlfactoryAuraChecked, headachesChecked, excessiveFatigueChecked, abnormalMoodChecked, sleepDisturbancesChecked, concentrationDifficultiesChecked, increasedSensitivityChecked, isArchived } = req.body;
 
     try {
         // Vérifier si le formulaire quotidien existe
@@ -118,7 +119,8 @@ export async function updateDailyForm(req, res) {
             abnormalMoodChecked,
             sleepDisturbancesChecked,
             concentrationDifficultiesChecked,
-            increasedSensitivityChecked
+            increasedSensitivityChecked,
+            isArchived
         }, { new: true });
 
         res.status(200).json(updatedDailyForm);
