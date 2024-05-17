@@ -4,11 +4,11 @@ import mongoose from 'mongoose';
 const {Schema,model} = mongoose;
 
 const dailyFormSchema = new Schema({
-   /* userId: {
+    userId: {
         type: Schema.Types.ObjectId,
         ref: "User",
         required: false
-    },*/
+    },
 
     bedTime: {
         hour: { type: Number, required: true },
@@ -37,6 +37,7 @@ const dailyFormSchema = new Schema({
     sleepDisturbancesChecked: { type: Boolean, required: true },
     concentrationDifficultiesChecked: { type: Boolean, required: true },
     increasedSensitivityChecked: { type: Boolean, required: true },
+    isArchived: { type: Boolean, default: false }
 }, 
 { 
     timestamps: true 
