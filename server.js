@@ -38,7 +38,7 @@ mongoose.Promise = global.Promise;
 
 // Connecting to the MongoDB database
 //mongoose.connect(`mongodb://127.0.0.1:27017/${databaseName}`)
-     mongoose.connect(db_url_atlas, { dbName: databaseName })
+    mongoose.connect(db_url_atlas, { dbName: databaseName })
     .then(() => {
         console.log(`Connected to ${databaseName}`);
     })

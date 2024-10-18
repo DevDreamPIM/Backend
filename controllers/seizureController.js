@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 export async function createSeizure(req, res) {
     const { date, startTime, endTime, duration, location, type, emergencyServicesCalled, medicalAssistance, severity } = req.body;
     const userId = req.user.userId;
-    if ( !date || !startTime || !endTime || !location || !type || !emergencyServicesCalled || !severity) {
+    if (!date || !startTime || !endTime || !location || !type || !emergencyServicesCalled || !severity) {
         return res.status(400).json({ error: 'userId, date, startTime, endTime, location, emergencyServicesCalled, severity, and type are required fields.' });
     }
 
@@ -30,16 +30,16 @@ export async function createSeizure(req, res) {
         // Enregistrer la crise dans la base de données
         const savedSeizure = await newSeizure.save();
 
-       /* // Créer un nouveau formulaire associé à la crise
-        const newFormData = new postCriseFormData({
-            criseId: savedSeizure._id,
-            // Autres champs de formulaire ici
-        });*/
+        /* // Créer un nouveau formulaire associé à la crise
+         const newFormData = new postCriseFormData({
+             criseId: savedSeizure._id,
+             // Autres champs de formulaire ici
+         });*/
 
         // Enregistrer le formulaire dans la base de données
-       // const savedFormData = await newFormData.save();
+        // const savedFormData = await newFormData.save();
 
-        res.status(201).json({ seizure: savedSeizure});
+        res.status(201).json({ seizure: savedSeizure });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -81,10 +81,10 @@ export async function getSeizureById(req, res) {
         if (!seizure) {
             return res.status(404).json({ error: 'Seizure not found for this user' });
         }
-        
+
         // Récupérer les données du formulaire associées à cette crise
         const formData = await postCriseFormData.findOne({ criseId: seizureId });
-        
+
         // Retourner les détails de la crise avec les données de formulaire
         res.status(200).json({ seizure, formData });
     } catch (error) {
@@ -92,7 +92,19 @@ export async function getSeizureById(req, res) {
     }
 }
 
+export async function getNumbercrisesLastThreeMonths(req, res) {
+    const userId = req.user.userId; // Récupérer l'ID de l'utilisateur à partir de la session
+    const today = new Date();
+    const todayCopy = new Date();
+    const threeMonthsAgo = new Date(todayCopy.setMonth(todayCopy.getMonth() - 3));
 
+    Seizure.find({ userId: userId, date: { $gte: threeMonthsAgo } })
+        .then((docs) => {
+            res.status(200).json({ count: docs.length });
+        }).catch(err => {
+            res.status(500).json({ message: err });
+        });
+}
 
 // Mettre à jour une crise
 export async function updateSeizure(req, res) {
